@@ -2,6 +2,10 @@ package ged.gont.teststack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.EmptyStackException;
+
 import ged.gont.stack.Stack;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -36,6 +40,24 @@ public class TestStack {
     @Order(3)
     public void testPop() {
         assertEquals(30, stack.pop());
+    }
+
+    @Test
+    public void testEmptyStackException(){
+        while(!stack.isEmtpy()){
+            stack.pop();
+        }
+        assertThrows(EmptyStackException.class, ()->{stack.pop();});
+        assertThrows(EmptyStackException.class, ()->{stack.peek();});
+    }
+
+    @Test
+    public void testIndexOutOfRangeException(){
+        while(!stack.isFull()){
+            stack.push(100);
+        }
+
+        assertThrows(ArrayIndexOutOfBoundsException.class, ()->{stack.push(100);});
     }
 
 }
