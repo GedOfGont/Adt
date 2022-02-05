@@ -1,4 +1,4 @@
-package ged.gont.linkendlist;
+package ged.gont.linkedlist;
 
 import java.util.NoSuchElementException;
 
