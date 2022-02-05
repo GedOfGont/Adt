@@ -29,7 +29,7 @@ public class TestStack {
     public void testEmpty() {
         assertFalse(stack.isEmtpy());
     }
-   
+
     @Test
     @Order(2)
     public void testPeek() {
@@ -43,21 +43,27 @@ public class TestStack {
     }
 
     @Test
-    public void testEmptyStackException(){
-        while(!stack.isEmtpy()){
+    public void testEmptyStackException() {
+        while (!stack.isEmtpy()) {
             stack.pop();
         }
-        assertThrows(EmptyStackException.class, ()->{stack.pop();});
-        assertThrows(EmptyStackException.class, ()->{stack.peek();});
+        assertThrows(EmptyStackException.class, () -> {
+            stack.pop();
+        });
+        assertThrows(EmptyStackException.class, () -> {
+            stack.peek();
+        });
     }
 
     @Test
-    public void testIndexOutOfRangeException(){
-        while(!stack.isFull()){
+    public void testIndexOutOfRangeException() {
+        while (!stack.isFull()) {
             stack.push(100);
         }
 
-        assertThrows(ArrayIndexOutOfBoundsException.class, ()->{stack.push(100);});
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            stack.push(100);
+        });
     }
 
 }

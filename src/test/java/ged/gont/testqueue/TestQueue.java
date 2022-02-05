@@ -14,7 +14,7 @@ public class TestQueue {
     static Queue<Integer> queue;
 
     @BeforeAll
-    public static void init(){
+    public static void init() {
         queue = new Queue<Integer>(10);
         queue.enqueue(50);
         queue.enqueue(20);
@@ -24,30 +24,34 @@ public class TestQueue {
     }
 
     @Test
-    public void testDequeue(){
+    public void testDequeue() {
         assertEquals(50, queue.dequeue());
     }
 
     @Test
-    public void testEmpty(){
+    public void testEmpty() {
         assertFalse(queue.isEmpty());
     }
 
     @Test
-    public void testDequeueException(){
-        while(!queue.isEmpty()){
+    public void testDequeueException() {
+        while (!queue.isEmpty()) {
             queue.dequeue();
         }
-        assertThrows(NoSuchElementException.class, ()->{queue.dequeue();});
+        assertThrows(NoSuchElementException.class, () -> {
+            queue.dequeue();
+        });
     }
 
     @Test
-    public void testEnqueueException(){
-        while(!queue.isFull()){
+    public void testEnqueueException() {
+        while (!queue.isFull()) {
             queue.enqueue(100);
         }
 
-        assertThrows(ArrayIndexOutOfBoundsException.class, ()->{queue.enqueue(100);});
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            queue.enqueue(100);
+        });
     }
 
 }
