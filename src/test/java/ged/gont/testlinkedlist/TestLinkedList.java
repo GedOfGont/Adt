@@ -3,8 +3,10 @@ package ged.gont.testlinkedlist;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.*;
+
+import ged.gont.linkedlist.*;
+
 import java.util.NoSuchElementException;
-import ged.gont.linkendlist.*;
 
 public class TestLinkedList {
 
