@@ -24,8 +24,8 @@ public class TestBinarySearchTree {
          *                      50
          *             20                  70
          *     10          30            60      80
-         *               40                    75      100
-         *                                          90      120
+         *                    40              75      100
+         *                                         90      120
          *                                            95
          */
         binarySearchTree.insert(50);
