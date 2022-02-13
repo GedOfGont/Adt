@@ -19,12 +19,29 @@ public class TestBinarySearchTree {
     @Test
     @Order(1)
     public void testInsert() {
+
+        /*
+         *                      50
+         *             20                  70
+         *     10          30            60      80
+         *               40                    75      100
+         *                                          90      120
+         *                                            95
+         */
         binarySearchTree.insert(50);
         binarySearchTree.insert(20);
         binarySearchTree.insert(70);
         binarySearchTree.insert(30);
         binarySearchTree.insert(60);
         binarySearchTree.insert(40);
+        binarySearchTree.insert(10);
+        binarySearchTree.insert(80);
+        binarySearchTree.insert(100);
+        binarySearchTree.insert(90);
+        binarySearchTree.insert(75);
+        binarySearchTree.insert(120);
+        binarySearchTree.insert(95);
+
         assertEquals(20, binarySearchTree.getRoot().getLeftChild().getValue());
     }
 
@@ -33,7 +50,7 @@ public class TestBinarySearchTree {
     public void testFind() {
         assertEquals(70, binarySearchTree.find(70).getValue());
         assertThrows(NullPointerException.class, () -> {
-            binarySearchTree.find(100);
+            binarySearchTree.find(1000);
         });
     }
 
@@ -48,17 +65,24 @@ public class TestBinarySearchTree {
     public void testGetParent() {
         assertEquals(30, binarySearchTree.getParent(40).getValue());
         assertThrows(NullPointerException.class, () -> {
-            binarySearchTree.getParent(100);
+            binarySearchTree.getParent(1000);
         });
     }
 
     @Test
     @Order(5)
-    public void testDelete(){
+    public void testDelete() {
         Integer deletedValue = 70;
-        assertThrows(NullPointerException.class, ()->{
+        assertThrows(NullPointerException.class, () -> {
             binarySearchTree.delete(deletedValue);
             binarySearchTree.find(deletedValue);
         });
+        binarySearchTree.inOrder(binarySearchTree.getRoot());
+    }
+
+    @Test
+    @Order(6)
+    public void testGetHeight() {
+        assertEquals(5, binarySearchTree.getHeight());
     }
 }

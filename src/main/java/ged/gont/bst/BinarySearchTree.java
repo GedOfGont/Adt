@@ -74,26 +74,36 @@ public class BinarySearchTree<T extends Comparable<T>> {
         if (root == null) {
             return root;
         } else if (root.getValue().compareTo(value) > 0) {
-            return delete(root.getLeftChild(), value);
+            root.setLeftChild(delete(root.getLeftChild(), value));
         } else if (root.getValue().compareTo(value) < 0) {
-            return delete(root.getRightChild(), value);
-        } else if (root.getValue().compareTo(value) == 0) {
-            if (root.getLeftChild() == null && root.getRightChild() == null) {
-                return null;
-            } else if (root.getLeftChild() == null) {
+            root.setRightChild(delete(root.getRightChild(), value));
+        } else {
+            if (root.getLeftChild() == null) {
                 return root.getRightChild();
             } else if (root.getRightChild() == null) {
                 return root.getLeftChild();
-            } else {
-                root.setValue(getRSubTreeMin(root.getRightChild()).getValue());
-                root.setRightChild(delete(root.getRightChild(), value));
             }
+            root.setValue(getRSubTreeMin(root.getRightChild()).getValue());
+            root.setRightChild(delete(root.getRightChild(), root.getValue()));
         }
         return root;
     }
 
-    public void inOrder(Node<T> root){
-        if(root != null){
+    public int getHeight() {
+        return getHeight(root);
+    }
+
+    private int getHeight(Node<T> root) {
+        if (root == null) {
+            return -1;
+        }
+        int leftHeight = getHeight(root.getLeftChild());
+        int rightHeight = getHeight(root.getRightChild());
+        return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
+    }
+
+    public void inOrder(Node<T> root) {
+        if (root != null) {
             inOrder(root.getLeftChild());
             System.out.println(root.getValue());
             inOrder(root.getRightChild());
