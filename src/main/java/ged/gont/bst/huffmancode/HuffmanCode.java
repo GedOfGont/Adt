@@ -1,20 +1,34 @@
 package ged.gont.bst.huffmancode;
 
+import java.util.BitSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.TreeMap;
 
 public class HuffmanCode {
-    private Node root;
-    private String compressedString = "";
 
-    public String encode(String inputString) {
+    private Node root;
+    Map<Character, String> charMap = new LinkedHashMap<>();
+
+    /**
+     * Encodes string in which most used characters have min codeword length
+     * 
+     * @param inputString compressed string
+     * @return encoded string
+     * @throws IllegelArgumentException if inputString contains invalid ASCII character 
+     */
+    public BitSet encode(String inputString) {
 
         char[] letters = inputString.toCharArray();
-        Map<Character, Integer> charFreq = new TreeMap<>();
+        Map<Character, Integer> charFreq = new LinkedHashMap<>();
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
+        String encodedString = "";
 
         for (char c : letters) {
+            if ((int) c > 255) {
+                throw new IllegalArgumentException("Input contains invalid ASCII character");
+            }
+
             if (charFreq.containsKey(c)) {
                 charFreq.put(c, charFreq.get(c) + 1);
             } else {
@@ -29,49 +43,76 @@ public class HuffmanCode {
         while (priorityQueue.size() > 1) {
             Node leftChild = priorityQueue.remove();
             Node rightChild = priorityQueue.remove();
-            priorityQueue.offer(new Node('x', leftChild.getFreq() + rightChild.getFreq(), leftChild, rightChild));
+            priorityQueue.offer(new Node(Character.MIN_VALUE, leftChild.getFreq() + rightChild.getFreq(), leftChild, rightChild));
         }
 
         root = priorityQueue.remove();
-        return generateCode(root, "");
-    }
+        generatePrefix(root, "");
 
-    public String generateCode(Node root, String code) {
-        if (!root.isLeaf()) {
-            generateCode(root.getLeftChild(), code.concat("0"));
-            generateCode(root.getRightChild(), code.concat("1"));
-        } else {
-            compressedString += code;
+        for (int i = 0; i < inputString.length(); i++) {
+            encodedString += (charMap.get(inputString.charAt(i)));
         }
-        return compressedString;
+        return convertBitSet(encodedString);
+
     }
 
-    public String decode(String compressedData) {
-        String string = "";
+    /**
+     * Generates prefix code in bit string format
+     * 
+     * @param root
+     * @param prefix
+     */
+    private void generatePrefix(Node root, String prefix) {
+        if (!root.isLeaf()) {
+            generatePrefix(root.getLeftChild(), prefix.concat("0"));
+            generatePrefix(root.getRightChild(), prefix.concat("1"));
+        } else {
+            charMap.put(root.getLetter(), prefix);
+        }
+    }
+
+
+    /**
+     * 
+     * @param encodedString
+     * @return bitset that converted from encodedString
+     */
+    private BitSet convertBitSet(String encodedString){
+        BitSet bitSet = new BitSet();
+        int index = 0;
+        for (char i : encodedString.toCharArray()) {
+            if(i == '0'){
+                bitSet.set(index++, false);
+            }else{
+                bitSet.set(index++, true);
+            }
+        }
+        return bitSet;
+    }
+
+    /**
+     * Decodes the given encoded string
+     * 
+     * @param encodedString
+     * @return decoded string
+     */
+    public String decode(BitSet encodedString) {
+        String decodedString = "";
         Node currentNode = root;
 
-        for (int i = 0; i < compressedData.length(); i++) {
+        for (int i = 0; i < encodedString.length(); i++) {
 
-            if (compressedData.charAt(i) == '0') {
+            if (encodedString.get(i) == false) {
                 currentNode = currentNode.getLeftChild();
-                if (currentNode.isLeaf()) {
-                    string += currentNode.getLetter();
-                    currentNode = root;
-                }
-            } else if (compressedData.charAt(i) == '1') {
+            } else if (encodedString.get(i) == true) {
                 currentNode = currentNode.getRightChild();
-                if (currentNode.isLeaf()) {
-                    string += currentNode.getLetter();
-                    currentNode = root;
-                }
+            }
+            if (currentNode.isLeaf()) {
+                decodedString += currentNode.getLetter();
+                currentNode = root;
             }
         }
 
-        return string;
-    }
-
-    public static void main(String[] args) {
-        HuffmanCode huffmanCode = new HuffmanCode();
-        System.out.println(huffmanCode.decode(huffmanCode.encode("A_DEAD_DAD_CEDED_A_BAD_BABE_A_BEADED_ABACA_BED")));
+        return decodedString;
     }
 }
