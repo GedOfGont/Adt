@@ -1,13 +1,13 @@
 package ged.gont.bst.huffmancode;
 
-public class Node implements Comparable<Node> {
+class Node implements Comparable<Node> {
 
-    private char letter;
-    private int freq;
-    private Node leftChild;
-    private Node rightChild;
+    private final char letter;
+    private final int freq;
+    private final Node leftChild;
+    private final Node rightChild;
 
-    public Node(char letter, int freq, Node leftChild, Node rightChild) {
+    public Node(final char letter,final int freq,final Node leftChild,final Node rightChild) {
         this.letter = letter;
         this.freq = freq;
         this.leftChild = leftChild;
@@ -35,8 +35,8 @@ public class Node implements Comparable<Node> {
     }
 
     @Override
-    public int compareTo(Node arg0) {
-        return this.freq - arg0.freq;
+    public int compareTo(Node otherNode) {
+        return this.freq - otherNode.freq;
     }
 
 }
