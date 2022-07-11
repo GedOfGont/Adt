@@ -4,18 +4,18 @@ import java.util.EmptyStackException;
 
 public class Stack<T> {
 
-    int top;
-    int size;
-    T[] values;
+    private int top;
+    private int size;
+    private T[] values;
 
     @SuppressWarnings("unchecked")
-    public Stack(int size) {
+    public Stack(final int size) {
         this.size = size;
         top = -1;
         values = (T[]) new Object[size];
     }
 
-    public void push(T value) {
+    public void push(final T value) {
         if (isFull()) {
             throw new ArrayIndexOutOfBoundsException("Stack size is exceed");
         }

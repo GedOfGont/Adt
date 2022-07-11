@@ -8,12 +8,12 @@ public class PriorityQueue<T> implements Comparator<T>{
     private T[] values;
 
     @SuppressWarnings("unchecked")
-    public PriorityQueue(int size) {
+    public PriorityQueue(final int size) {
         numElements = 0;
         values = (T[]) new Object[size];
     }
 
-    public void enqueue(T value) {
+    public void enqueue(final T value) {
         if (numElements == 0) {
             values[numElements] = value;
         } else {

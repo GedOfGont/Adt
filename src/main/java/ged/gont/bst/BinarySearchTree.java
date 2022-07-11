@@ -12,11 +12,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return root;
     }
 
-    public void insert(T value) {
+    public void insert(final T value) {
         root = insert(root, value);
     }
 
-    private Node<T> insert(Node<T> root, T value) {
+    private Node<T> insert(Node<T> root, final T value) {
         if (root == null) {
             root = new Node<T>(value);
         } else if (root.getValue().compareTo(value) > 0) {
@@ -27,11 +27,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return root;
     }
 
-    public Node<T> find(T value) {
+    public Node<T> find(final T value) {
         return find(root, value);
     }
 
-    private Node<T> find(Node<T> root, T value) {
+    private Node<T> find(final Node<T> root, final T value) {
         if (root == null) {
             throw new NullPointerException("Not found");
         } else if (root.getValue() == value) {
@@ -50,11 +50,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return root;
     }
 
-    public Node<T> getParent(T value) {
+    public Node<T> getParent(final T value) {
         return getParent(root, root, value);
     }
 
-    private Node<T> getParent(Node<T> parent, Node<T> currentNode, T value) {
+    private Node<T> getParent(final Node<T> parent, final Node<T> currentNode, final T value) {
         if (currentNode == null) {
             throw new NullPointerException("Not found");
         } else if (currentNode.getValue().compareTo(value) == 0) {
@@ -66,11 +66,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
         }
     }
 
-    public void delete(T value) {
+    public void delete(final T value) {
         root = delete(root, value);
     }
 
-    private Node<T> delete(Node<T> root, T value) {
+    private Node<T> delete(final Node<T> root, final T value) {
         if (root == null) {
             return root;
         } else if (root.getValue().compareTo(value) > 0) {
@@ -93,7 +93,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return getHeight(root);
     }
 
-    private int getHeight(Node<T> root) {
+    private int getHeight(final Node<T> root) {
         if (root == null) {
             return -1;
         }
@@ -102,7 +102,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
     }
 
-    public void inOrder(Node<T> root) {
+    public void inOrder(final Node<T> root) {
         if (root != null) {
             inOrder(root.getLeftChild());
             System.out.println(root.getValue());
